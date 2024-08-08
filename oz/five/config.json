@@ -1,0 +1,15 @@
+{
+    "database": {
+      "username": "root",
+      "password": "root",
+      "host": "localhost",
+      "port": 3306,
+      "database_name": "airportdb"
+    },
+    "tables": {
+      "airline": {
+        "rows": 5,
+        "mode": "replace"
+      }
+    }
+  }
