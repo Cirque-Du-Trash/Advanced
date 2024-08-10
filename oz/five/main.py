@@ -128,7 +128,7 @@ def insert_data(config):
             session.execute(table.delete())
         
         dummy_data = generate_dummy_data(table, num_rows)
-        session.execute(table.insert(), dummy_data)
+        session.execute(table.insert(), dummy_data) # 배치 인서트
 
     session.commit()
     session.close()
