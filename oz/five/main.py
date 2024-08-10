@@ -18,7 +18,12 @@ def load_config(file_path):
 
  # 고정 길이 문자열 생성 함수
 def generate_fixed_length_string(length):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+    return ''.join(random.choices
+                   (string.ascii_letters 
+                    + string.digits 
+                    + string.punctuation
+                    + 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
+                    + 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン', k=length))
 
  # 유니크 문자열 생성 함수
 def generate_unique_string(existing_values, length=10):
@@ -29,9 +34,9 @@ def generate_unique_string(existing_values, length=10):
     return unique_str
 
  # 유니크 인티저 생성 함수
-def generate_unique_integer(existing_values, min_value=0, max_value=10000):
+def generate_unique_integer(existing_values):
     while True:
-        unique_int = random.randint(min_value, max_value)
+        unique_int = faker.random_int(min=0, max=30000)
         if unique_int not in existing_values:
             return unique_int
 
@@ -52,7 +57,7 @@ def generate_column_data(col_type, existing_values):
             return generate_unique_integer(existing_values)
         if 'TINYINT' in str(col_type):
             return random.choice([0, 1])
-        return faker.random_int(min=0, max=10000)
+        return faker.random_int(min=0, max=30000)
     
     elif isinstance(col_type, DECIMAL):
         return faker.latitude() # Faker 위도 생성 메소드
@@ -127,7 +132,7 @@ def insert_data(config):
             session.execute(table.delete())
         
         dummy_data = generate_dummy_data(table, num_rows)
-        session.execute(table.insert(), dummy_data) # 배치 인서트
+        session.execute(table.insert(), dummy_data)
 
     session.commit()
     session.close()
