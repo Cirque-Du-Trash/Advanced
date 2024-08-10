@@ -18,12 +18,7 @@ def load_config(file_path):
 
  # 고정 길이 문자열 생성 함수
 def generate_fixed_length_string(length):
-    return ''.join(random.choices
-                   (string.ascii_letters 
-                    + string.digits 
-                    + string.punctuation
-                    + 'あいうえおかきくけこさしすせそたちつてとなにぬねのはひふへほまみむめもやゆよらりるれろわをん'
-                    + 'アイウエオカキクケコサシスセソタチツテトナニヌネノハヒフヘホマミムメモヤユヨラリルレロワヲン', k=length))
+    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
  # 유니크 문자열 생성 함수
 def generate_unique_string(existing_values, length=10):
@@ -50,7 +45,7 @@ def generate_column_data(col_type, existing_values):
         length = col_type.length
         if length and existing_values is not None:
             return generate_unique_string(existing_values, length)
-        return generate_fixed_length_string(length) if length else faker.text(max_nb_chars=255)
+        return generate_fixed_length_string(length) if length else faker.text(max_nb_chars=100)
     
     elif isinstance(col_type, Integer) or isinstance(col_type, Float) or isinstance(col_type, SmallInteger):
         if existing_values is not None:
