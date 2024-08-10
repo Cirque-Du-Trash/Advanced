@@ -1,6 +1,5 @@
 import json
 import argparse
-import yaml
 import random
 import string
 from sqlalchemy import create_engine, MetaData, Table
@@ -13,13 +12,10 @@ def load_config(file_path):
     if file_path.endswith('.json'):
         with open(file_path, 'r') as file:
             return json.load(file)
-    elif file_path.endswith('.yaml') or file_path.endswith('.yml'):
-        with open(file_path, 'r') as file:
-            return yaml.safe_load(file)
     else:
         raise ValueError("Unsupported file type. Use JSON or YAML.")
 
- # 고정 길이 문자열 생성
+ # 고정 길이 문자열 생성 함수
 def generate_fixed_length_string(length):
     return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
 
@@ -38,7 +34,7 @@ def generate_unique_integer(existing_values, min_value=0, max_value=10000):
         if unique_int not in existing_values:
             return unique_int
 
-# 컬럼 타입에 따른 더미 데이터 생성기
+# 컬럼 타입에 따른 더미 데이터 생성 함수
 def generate_column_data(col_type, existing_values):
     faker = Faker()
 
@@ -60,7 +56,7 @@ def generate_column_data(col_type, existing_values):
         return faker.random_int(min=0, max=10000)
     
     elif isinstance(col_type, DECIMAL):
-        return faker.latitude()  # for latitude and longitude fields
+        return faker.latitude() # Faker 위도 생성 메소드
 
     elif isinstance(col_type, Boolean):
         return faker.boolean()
@@ -78,7 +74,7 @@ def generate_column_data(col_type, existing_values):
         return faker.text()
 
 
-# 테이블에 맞는 더미 데이터 생성기
+# 테이블에 맞는 더미 데이터 생성 함수
 def generate_dummy_data(table, num_rows):
     data = []
     existing_values = {col.name: set() for col in table.columns}
