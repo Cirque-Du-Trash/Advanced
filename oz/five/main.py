@@ -6,6 +6,7 @@ from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.sqltypes import String, Integer, Float, Date, DateTime, Boolean, SmallInteger, DECIMAL, Enum, Time
 from faker import Faker
+faker = Faker()
 
 # 설정 파일 로드
 def load_config(file_path):
@@ -36,8 +37,6 @@ def generate_unique_integer(existing_values, min_value=0, max_value=10000):
 
 # 컬럼 타입에 따른 더미 데이터 생성 함수
 def generate_column_data(col_type, existing_values):
-    faker = Faker()
-
     if isinstance(col_type, Enum):
         enum_values = col_type.enums
         return random.choice(enum_values)
