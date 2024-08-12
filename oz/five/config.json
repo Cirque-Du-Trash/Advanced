@@ -8,59 +8,59 @@
     },
     "tables": {
       "airline": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "airplane": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "airplane_type": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "airport": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "airport_geo": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "airport_reachable": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "booking": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "employee": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "flight": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "flight_log": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "flightschedule": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "passenger": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "passengerdetails": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       },
       "weatherdata": {
-        "rows": 1000,
+        "rows": 20000,
         "mode": "replace"
       }
     }

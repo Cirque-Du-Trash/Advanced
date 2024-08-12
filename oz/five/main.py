@@ -1,7 +1,7 @@
 import json
 import argparse
 import random
-import string
+import time
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.sqltypes import String, Integer, Float, Date, DateTime, Boolean, SmallInteger, DECIMAL, Enum, Time
@@ -16,22 +16,35 @@ def load_config(file_path):
     else:
         raise ValueError("Unsupported file type. Use JSON or YAML.")
 
- # 고정 길이 문자열 생성 함수
-def generate_fixed_length_string(length):
-    return ''.join(random.choices(string.ascii_letters + string.digits, k=length))
+# Unicode character ranges for various scripts
+def get_unicode_characters():
+    unicode_blocks = {
+        'Chinese': (0x4E00, 0x9FFF)
+    }
+
+    characters = []
+    for start_end in unicode_blocks.values():
+        start, end = start_end  # Unpack the tuple
+        characters.extend(chr(code_point) for code_point in range(start, end + 1))
+    
+    return characters
+
+def generate_multilingual_text(length=100):
+    all_chars = get_unicode_characters()
+    return ''.join(random.choice(all_chars) for _ in range(length))
 
  # 유니크 문자열 생성 함수
 def generate_unique_string(existing_values, length=10):
     existing_values_lower = {v.lower() for v in existing_values}
-    unique_str = generate_fixed_length_string(length)
+    unique_str = generate_multilingual_text(length)
     while unique_str.lower() in existing_values_lower:
-        unique_str = generate_fixed_length_string(length)
+        unique_str = generate_multilingual_text(length)
     return unique_str
 
  # 유니크 인티저 생성 함수
-def generate_unique_integer(existing_values):
+def generate_unique_integer(existing_values, max_value=30000):
     while True:
-        unique_int = faker.random_int(min=0, max=30000)
+        unique_int = faker.random_int(min=0, max=max_value)
         if unique_int not in existing_values:
             return unique_int
 
@@ -43,10 +56,16 @@ def generate_column_data(col_type, existing_values):
     
     elif isinstance(col_type, String):
         length = col_type.length
-        if length and existing_values is not None:
-            return generate_unique_string(existing_values, length)
-        return generate_fixed_length_string(length) if length else faker.text(max_nb_chars=100)
-    
+        if length:
+            if existing_values is not None:
+                return generate_unique_string(existing_values, length)
+            else:
+                if length < 5:
+                    return faker.word()[:length]
+                else:
+                    return faker.text(max_nb_chars=length)
+        return faker.text(max_nb_chars=100)
+
     elif isinstance(col_type, Integer) or isinstance(col_type, Float) or isinstance(col_type, SmallInteger):
         if existing_values is not None:
             return generate_unique_integer(existing_values)
@@ -77,6 +96,7 @@ def generate_column_data(col_type, existing_values):
 def generate_dummy_data(table, num_rows):
     data = []
     existing_values = {col.name: set() for col in table.columns}
+    auto_increment_columns = {col.name for col in table.columns if col.autoincrement}
 
     inserted_count = 0  # 데이터 삽입 카운트
     
@@ -93,6 +113,9 @@ def generate_dummy_data(table, num_rows):
     for _ in range(num_rows):
         row = {}
         for col in table.columns:
+            if col.name in auto_increment_columns:
+                # 자동 증가 필드에 대해서는 값을 생성하지 않음
+                row[col.name] = None
             if col.name in unique_columns:
                 # 유니크 제약 조건이 있는 컬럼에 대해 기존 값을 참조하여 유니크한 값을 생성
                 row[col.name] = generate_column_data(col.type, existing_values[col.name])
@@ -105,7 +128,7 @@ def generate_dummy_data(table, num_rows):
         inserted_count += 1
         
         # 데이터 생성 후 카운트 출력
-        print(f"Generated {inserted_count} rows for table '{table.name}'")
+        print(f"테이블 {table.name}에 대해 {inserted_count}개의 행이 생성됨.")
     return data
 
 # 데이터베이스 연결 설정 및 데이터 삽입
@@ -139,7 +162,11 @@ def main():
     args = parser.parse_args()
     
     config = load_config(args.config)
+    start_time = time.time()
     insert_data(config)
+    end_time = time.time()
+    elapsed_time = end_time - start_time
+    print(f"소요 시간: {elapsed_time:.2f} 초")
 
 if __name__ == '__main__':
     main()
