@@ -18,14 +18,13 @@ def load_config(file_path):
         return json.load(file)
 
 def generate_fixed_length_string(length):
-    return ''.join(random.choices(string.ascii_lowercase + string.ascii_lowercase + string.digits, k=length))
+    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
 
 # 유니크 문자열 생성
 def generate_unique_string(existing_values, length=10):
-    existing_values_lower = {v.lower() for v in existing_values}
     while True:
         unique_str = generate_fixed_length_string(length)
-        if unique_str.lower() not in existing_values_lower:
+        if unique_str not in existing_values:
             return unique_str
 
 # 유니크 인티저 생성
