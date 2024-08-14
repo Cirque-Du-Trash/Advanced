@@ -2,7 +2,6 @@ import json
 import argparse
 import random
 import time
-import string
 from sqlalchemy import create_engine, MetaData, Table
 from sqlalchemy.orm import sessionmaker
 from sqlalchemy.sql.sqltypes import String, Integer, Float, Date, DateTime, Boolean, SmallInteger, DECIMAL, Enum, Time
@@ -17,14 +16,20 @@ def load_config(file_path):
     with open(file_path, 'r') as file:
         return json.load(file)
 
-def generate_fixed_length_string(length):
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
+# Unicode 문자 생성
+def get_unicode_characters():
+    return [chr(code_point) for code_point in range(0x4E00, 0x9FFF + 1)]
+
+def generate_multilingual_text(length=100):
+    all_chars = get_unicode_characters()
+    return ''.join(random.choice(all_chars) for _ in range(length))
 
 # 유니크 문자열 생성
 def generate_unique_string(existing_values, length=10):
+    existing_values_lower = {v.lower() for v in existing_values}
     while True:
-        unique_str = generate_fixed_length_string(length)
-        if unique_str not in existing_values:
+        unique_str = generate_multilingual_text(length)
+        if unique_str.lower() not in existing_values_lower:
             return unique_str
 
 # 유니크 인티저 생성
