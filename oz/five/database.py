@@ -18,11 +18,7 @@ def insert_data(config):
             session.execute(table.delete())
         
         dummy_data = generate_dummy_data(table, table_config['rows'])
-        
-        batch_size = 5000
-        for i in range(0, len(dummy_data), batch_size):
-            batch = dummy_data[i:i + batch_size]
-            session.execute(table.insert(), batch)
+        session.execute(table.insert(), dummy_data)
 
     session.commit()
     session.close()
