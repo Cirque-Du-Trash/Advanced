@@ -58,13 +58,14 @@ def generate_dummy_data(table, num_rows):
     for _ in range(num_rows):
         row = {}
         for col in table.columns:
-            if col.autoincrement:
-                row[col.name] = None
-            if col.name in unique_columns:
-                # 유니크 제약 조건이 있는 컬럼에 대해 기존 값을 참조하여 유니크한 값을 생성
-                row[col.name] = generate_column_data(col.type, existing_values[col.name])
+            if col.autoincrement == True:
+                continue
             else:
-                row[col.name] = generate_column_data(col.type, None)
+                if col.name in unique_columns:
+                # 유니크 제약 조건이 있는 컬럼에 대해 기존 값을 참조하여 유니크한 값을 생성
+                    row[col.name] = generate_column_data(col.type, existing_values[col.name])
+                else:
+                    row[col.name] = generate_column_data(col.type, None)
                 
             existing_values[col.name].add(row[col.name])
         data.append(row)
