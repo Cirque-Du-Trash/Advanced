@@ -15,10 +15,8 @@ def insert_data(config):
     for table_name, table_config in config['tables'].items():
         table = Table(table_name, metadata, autoload_with=engine)
         
-        session.execute(text(f"TRUNCATE TABLE {table_name};"))
-        
         if table_config.get('mode') == 'replace':
-            session.execute(table.delete())
+            session.execute(text(f"TRUNCATE TABLE {table_name};"))
         
         dummy_data = generate_dummy_data(table, table_config['rows'])
         session.execute(table.insert(), dummy_data)
