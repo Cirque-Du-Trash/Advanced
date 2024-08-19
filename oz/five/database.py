@@ -1,11 +1,11 @@
 from sqlalchemy import create_engine, MetaData, Table, text
 from sqlalchemy.orm import sessionmaker
 from data_generator import generate_dummy_data
+from conf.app_config import db_username, db_password, db_host, db_port, db_name
 
 # 데이터베이스 연결 설정 및 데이터 삽입
 def insert_data(config):
-    db_config = config['database']
-    engine = create_engine(f"mysql+pymysql://{db_config['username']}:{db_config['password']}@{db_config['host']}:{db_config['port']}/{db_config['database_name']}")
+    engine = create_engine(f"mysql+pymysql://{db_username}:{db_password}@{db_host}:{db_port}/{db_name}")
     metadata = MetaData()
     metadata.reflect(bind=engine)
     

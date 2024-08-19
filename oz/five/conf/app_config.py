@@ -12,3 +12,10 @@ with open(config_file, "r") as f:
 # 설정을 가져오는 함수
 def get_config():
     return config
+
+db_config = config["database"]
+db_username = db_config["username"]
+db_password = db_config["password"]
+db_host = db_config["host"]
+db_port = db_config["port"]
+db_name = db_config["database_name"]
