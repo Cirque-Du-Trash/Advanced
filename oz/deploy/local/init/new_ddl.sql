@@ -1,3 +1,4 @@
+CREATE DATABASE IF NOT EXISTS oz;
 use oz;
 
 CREATE TABLE customers (
