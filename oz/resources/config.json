@@ -1,4 +1,5 @@
 {
+  "airportdb": {
     "database": {
       "username": "root",
       "password": "root",
@@ -64,4 +65,56 @@
         "mode": "replace"
       }
     }
+  },
+  "oz": {
+    "database": {
+      "username": "root",
+      "password": "root",
+      "host": "localhost",
+      "port": 3306,
+      "database_name": "oz"
+    },
+    "tables": {
+      "customers": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "departments": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "employees": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "inventory": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "invoices": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "orders": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "products": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "reviews": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "shipments": {
+          "rows": 20000,
+          "mode": "replace"
+      },
+      "suppliers": {
+          "rows": 20000,
+          "mode": "replace"
+      }
+    }
   }
+}
