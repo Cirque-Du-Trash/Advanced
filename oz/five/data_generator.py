@@ -1,7 +1,6 @@
 import random
 import string
 from sqlalchemy.sql.sqltypes import String, Integer, Float, Date, DateTime, Boolean, SmallInteger, DECIMAL, Enum, Time, TIMESTAMP
-from datetime import datetime
 from faker import Faker
 
 faker = Faker()
