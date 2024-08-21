@@ -39,7 +39,7 @@ def generate_column_data(col_type, existing_values):
                     return faker.word()[:length]
                 else:
                     return faker.text(max_nb_chars=length)
-        return faker.text(max_nb_chars=100)
+        return faker.text(max_nb_chars=50)
     
     elif isinstance(col_type, (Integer, Float, SmallInteger)):
         return (generate_unique_integer(existing_values) if existing_values 
@@ -51,9 +51,6 @@ def generate_column_data(col_type, existing_values):
     
     elif isinstance(col_type, Boolean):
         return faker.boolean()
-    
-    elif isinstance(col_type, TIMESTAMP):
-        return datetime.now()
     
     elif isinstance(col_type, Date):
         return faker.date()
@@ -81,6 +78,8 @@ def generate_dummy_data(table, num_rows):
         row = {}
         for col in table.columns:
             if col.autoincrement == True:
+                continue
+            elif isinstance(col.type, TIMESTAMP): #autoincrement와 CURRENT_TIME 속성을 가진 컬럼들은 skip
                 continue
             else:
                 if col.name in unique_columns:
