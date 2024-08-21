@@ -1,6 +1,6 @@
 import random
 import string
-from sqlalchemy.sql.sqltypes import String, Integer, Float, Date, DateTime, Boolean, SmallInteger, DECIMAL, Enum, Time
+from sqlalchemy.sql.sqltypes import String, Integer, Float, Date, DateTime, Boolean, SmallInteger, DECIMAL, Enum, Time, TIMESTAMP
 from faker import Faker
 
 faker = Faker()
@@ -39,7 +39,6 @@ def generate_column_data(col_type, existing_values):
                 else:
                     return faker.text(max_nb_chars=length)
         return faker.text(max_nb_chars=100)
-
     elif isinstance(col_type, (Integer, Float, SmallInteger)):
         return (generate_unique_integer(existing_values) if existing_values 
                 else random.choice([0, 1]) if 'TINYINT' in str(col_type) 
@@ -51,6 +50,9 @@ def generate_column_data(col_type, existing_values):
     elif isinstance(col_type, Boolean):
         return faker.boolean()
     
+    elif isinstance(col_type, TIMESTAMP):
+        return None
+    
     elif isinstance(col_type, Date):
         return faker.date()
     
@@ -59,7 +61,7 @@ def generate_column_data(col_type, existing_values):
     
     elif isinstance(col_type, Time):
         return faker.time()
-
+    
     return faker.text()
 
 # 테이블에 맞는 더미 데이터 생성
@@ -68,11 +70,11 @@ def generate_dummy_data(table, num_rows):
     existing_values = {col.name: set() for col in table.columns}
     unique_columns = {col.name for col in table.primary_key.columns}
     inserted_count = 0  # 데이터 삽입 카운트
-
+    
     for index in table.indexes:
         if index.unique:
             unique_columns.update(col.name for col in index.columns)
-
+            
     for _ in range(num_rows):
         row = {}
         for col in table.columns:
@@ -84,7 +86,7 @@ def generate_dummy_data(table, num_rows):
                     row[col.name] = generate_column_data(col.type, existing_values[col.name])
                 else:
                     row[col.name] = generate_column_data(col.type, None)
-                
+
             existing_values[col.name].add(row[col.name])
         data.append(row)
         
