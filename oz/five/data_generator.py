@@ -1,6 +1,7 @@
 import random
 import string
 from sqlalchemy.sql.sqltypes import String, Integer, Float, Date, DateTime, Boolean, SmallInteger, DECIMAL, Enum, Time, TIMESTAMP
+from datetime import datetime
 from faker import Faker
 
 faker = Faker()
@@ -39,6 +40,7 @@ def generate_column_data(col_type, existing_values):
                 else:
                     return faker.text(max_nb_chars=length)
         return faker.text(max_nb_chars=100)
+    
     elif isinstance(col_type, (Integer, Float, SmallInteger)):
         return (generate_unique_integer(existing_values) if existing_values 
                 else random.choice([0, 1]) if 'TINYINT' in str(col_type) 
@@ -51,7 +53,7 @@ def generate_column_data(col_type, existing_values):
         return faker.boolean()
     
     elif isinstance(col_type, TIMESTAMP):
-        return None
+        return datetime.now()
     
     elif isinstance(col_type, Date):
         return faker.date()

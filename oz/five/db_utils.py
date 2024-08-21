@@ -21,5 +21,6 @@ def insert_data(config):
             
             dummy_data = generate_dummy_data(table, table_config['rows'])
             session.execute(table.insert(), dummy_data)
+            
         session.commit()
         session.close()
