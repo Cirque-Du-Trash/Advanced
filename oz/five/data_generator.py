@@ -38,7 +38,7 @@ def generate_column_data(col_type, existing_values):
                     return faker.word()[:length]
                 else:
                     return faker.text(max_nb_chars=length)
-        return faker.text(max_nb_chars=50)
+        return faker.text(max_nb_chars=30)
     
     elif isinstance(col_type, (Integer, Float, SmallInteger)):
         return (generate_unique_integer(existing_values) if existing_values 
@@ -92,5 +92,5 @@ def generate_dummy_data(table, num_rows):
         
         inserted_count += 1
         
-        print(f"테이블 {table.name}에 대해 {inserted_count}개의 행이 생성됨.")
+        print(f"테이블 {table.name}에 대해 {inserted_count}개의 데이터가 생성됨.")
     return data
