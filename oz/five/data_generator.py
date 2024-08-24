@@ -38,7 +38,7 @@ def generate_column_data(col_type, existing_values):
                     return faker.word()[:length]
                 else:
                     return faker.text(max_nb_chars=length)
-        return faker.text(max_nb_chars=30)
+        return faker.text(max_nb_chars=50)
     
     elif isinstance(col_type, (Integer, Float, SmallInteger)):
         return (generate_unique_integer(existing_values) if existing_values 

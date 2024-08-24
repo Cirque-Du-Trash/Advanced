@@ -1,7 +1,6 @@
 from sqlalchemy import Table, text
 from data_generator import generate_dummy_data
 from conf.alchemy_db import get_engine, get_session, get_metadata
-from concurrent.futures import ThreadPoolExecutor
 
 
 # 데이터베이스 연결 설정 및 데이터 삽입
@@ -20,7 +19,9 @@ def insert_data(config):
                 session.execute(text(f"TRUNCATE TABLE {table_name};"))
             
             dummy_data = generate_dummy_data(table, table_config['rows'])
-            session.execute(table.insert(), dummy_data)
+            for i in range(0, len(dummy_data), 5000):
+                batch = dummy_data[i:i + 5000] 
+                session.execute(table.insert(), batch)
             
         session.commit()
         session.close()
