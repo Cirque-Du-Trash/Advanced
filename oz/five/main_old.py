@@ -1,6 +1,6 @@
 import time
 from conf.config_loader import load_config
-from db_utils import insert_data
+from insert_data import insert_data
 
 # 메인 함수
 def main():   
