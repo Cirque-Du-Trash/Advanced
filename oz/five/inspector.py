@@ -2,18 +2,15 @@ from sqlalchemy import inspect
 
 # 특정 데이터베이스에 속한 schema 목록 반환
 def get_schemas(engine):
-    inspector = inspect(engine)
-    return inspector.get_schema_names()
+    return inspect(engine).get_schema_names()
 
 # 특정 데이터베이스의 schema에 속한 테이블 목록 반환
 def get_tables(engine, schema):
-    inspector = inspect(engine)
-    return inspector.get_table_names(schema=schema)
+    return inspect(engine).get_table_names(schema=schema)
 
 # 특정 데이터베이스의 schema에 속한 뷰 목록 반환
 def get_views(engine, schema):
-    inspector = inspect(engine)
-    return inspector.get_view_names(schema=schema)
+    return inspect(engine).get_view_names(schema=schema)
 
 # 특정 데이터베이스의 schema에 속한 테이블 목록과 테이블 별 컬럼정보, 코멘트를 반환
 def get_table_info(engine, schema):

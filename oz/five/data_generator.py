@@ -5,14 +5,10 @@ from faker import Faker
 
 faker = Faker()
 
-# 고정 길이 문자열 생성
-def generate_fixed_length_string(length):
-    return ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
-
-# 유니크 문자열 생성
+# 유니크 스트링 생성
 def generate_unique_string(existing_values, length=10):
     while True:
-        unique_str = generate_fixed_length_string(length)
+        unique_str = ''.join(random.choices(string.ascii_uppercase + string.digits, k=length))
         if unique_str not in existing_values:
             return unique_str
 
@@ -67,7 +63,6 @@ def generate_dummy_data(table, num_rows):
     data = []
     existing_values = {col.name: set() for col in table.columns}
     unique_columns = {col.name for col in table.primary_key.columns}
-    inserted_count = 0  # 데이터 삽입 카운트
     
     for index in table.indexes:
         if index.unique:
@@ -90,7 +85,5 @@ def generate_dummy_data(table, num_rows):
             existing_values[col.name].add(row[col.name])
         data.append(row)
         
-        inserted_count += 1
-        
-        print(f"테이블 {table.name}에 대해 {inserted_count}개의 데이터가 생성됨.")
+        print(f"테이블 {table.name}에 대해 {len(data)}개의 데이터가 생성됨.")
     return data

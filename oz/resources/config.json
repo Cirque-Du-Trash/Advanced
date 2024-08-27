@@ -13,55 +13,55 @@
         "mode": "replace"
       },
       "airplane": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "airplane_type": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "airport": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "airport_geo": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "airport_reachable": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "booking": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "employee": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "flight": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "flight_log": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "flightschedule": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "passenger": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "passengerdetails": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       },
       "weatherdata": {
-        "rows": 20000,
+        "rows": 5000,
         "mode": "replace"
       }
     }
@@ -76,43 +76,43 @@
     },
     "tables": {
       "customers": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "departments": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "employees": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "inventory": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "invoices": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "orders": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "products": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "reviews": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "shipments": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       },
       "suppliers": {
-          "rows": 20000,
+          "rows": 5000,
           "mode": "replace"
       }
     }

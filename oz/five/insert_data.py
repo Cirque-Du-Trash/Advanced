@@ -2,7 +2,6 @@ from sqlalchemy import Table, text
 from data_generator import generate_dummy_data
 from conf.alchemy_db import get_engine, get_session, get_metadata
 
-
 # 데이터베이스 연결 설정 및 데이터 삽입
 def insert_data(config):
     for key in list(config):
@@ -18,9 +17,10 @@ def insert_data(config):
             if table_config.get('mode') == 'replace':
                 session.execute(text(f"TRUNCATE TABLE {table_name};"))
             
+            BATCH_SIZE = 5000
             dummy_data = generate_dummy_data(table, table_config['rows'])
-            for i in range(0, len(dummy_data), 5000):
-                batch = dummy_data[i:i + 5000] 
+            for i in range(0, len(dummy_data), BATCH_SIZE):
+                batch = dummy_data[i:i + BATCH_SIZE] 
                 session.execute(table.insert(), batch)
             
         session.commit()
