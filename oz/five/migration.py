@@ -2,6 +2,23 @@ from pymongo import MongoClient
 from sqlalchemy import create_engine, inspect
 from conf.config_loader import load_config 
 import pymysql
+import decimal
+import datetime
+
+# Decimal과 Datetime은 MongoDB에서 미지원
+def convert_data(data):
+    if isinstance(data, dict):
+        return {key: convert_data(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [convert_data(element) for element in data]
+    elif isinstance(data, decimal.Decimal):
+        return float(data)
+    elif isinstance(data, datetime.timedelta):
+        return int(data.total_seconds())  # timedelta를 초로 변환
+    elif isinstance(data, datetime.date):
+        return data.isoformat()  # date를 문자열로 변환
+    else:
+        return data
 
 def migrate_data(source_db, source_table, target_db, target_collection):
     config = load_config()
@@ -28,9 +45,13 @@ def migrate_data(source_db, source_table, target_db, target_collection):
             # MongoDB로 데이터 삽입
             for row in rows:
                 document = dict(zip([column[0] for column in cursor.description], row))
+                document = convert_data(document)
                 mongo_collection.insert_one(document)
 
-        print(f"Successfully migrated data from {source_db}.{source_table} to {target_db}.{target_collection}")
+        print(f"마이그레이션 성공 {source_db}.{source_table} 에서 {target_db}.{target_collection}")
+        
+    except Exception as e:
+        print(f"마이그레이션 중 오류가 발생했습니다: {e}")
     
     finally:
         mysql_conn.close()
@@ -68,14 +89,15 @@ def compare_schemas(source_db, source_table, target_db, target_collection):
         })
     
     # 결과를 README.md 파일에 작성
-    with open('README.md', 'a') as f:
-        f.write(f"\n\n## Schema Comparison: {source_db}.{source_table} vs {target_db}.{target_collection}\n\n")
-        f.write("| Field | MySQL Type | MongoDB Type |\n")
+    with open('README.md', 'a') as f:  # 'w' 모드를 사용하여 파일을 새로 작성
+        f.write(f"# 스키마 비교 결과\n\n")  # 파일의 처음에 제목 추가
+        f.write(f"## 스키마 비교: {source_db}.{source_table} vs {target_db}.{target_collection}\n\n")
+        f.write("| 필드 | MySQL 타입 | MongoDB 타입 |\n")
         f.write("|-------|------------|---------------|\n")
         for item in comparison_result:
             f.write(f"| {item['field']} | {item['mysql_type']} | {item['mongodb_type']} |\n")
-    
-    print(f"Schema comparison for {source_db}.{source_table} vs {target_db}.{target_collection} has been added to README.md")
+
+    print(f"스키마 {source_db}.{source_table}와 {target_db}.{target_collection}의 비교 결과가 README.md에 추가되었습니다.")
 
 def compare_all_schemas():
     config = load_config()
