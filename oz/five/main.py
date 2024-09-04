@@ -2,7 +2,7 @@ import time
 from conf.config_loader import load_config
 from conf.alchemy_db import get_engine
 from insert_data import insert_data
-from inspector import display_main_menu, handle_database_info, handle_migration, handle_schema_comparison
+from schema_tool import display_main_menu, handle_database_info, handle_migration, handle_schema_comparison
 
 def main():
     config = load_config()
