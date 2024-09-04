@@ -31,7 +31,12 @@ def migrate_data(source_db, source_table, target_db, target_collection):
     config = load_config()
     mysql_conn = get_mysql_connection(source_db)
     
-    mongo_client = MongoClient("mongodb://root:root@localhost:27017/airportdb_mongo")
+    mongo_client = MongoClient(
+        host=config[source_db]['target_database']['host'],
+        port=config[source_db]['target_database']['port'],
+        username=config[source_db]['target_database']['username'],
+        password=config[source_db]['target_database']['password']
+    )
     mongo_db = mongo_client[config[source_db]['target_database']['database_name']]
     mongo_collection = mongo_db[target_collection]
 
@@ -55,7 +60,12 @@ def compare_schemas(source_db, source_table, target_db, target_collection):
     inspector = inspect(mysql_engine)
     mysql_columns = inspector.get_columns(source_table)
 
-    mongo_client = MongoClient("mongodb://root:root@localhost:27017/airportdb_mongo")
+    mongo_client = MongoClient(
+        host=config[source_db]['target_database']['host'],
+        port=config[source_db]['target_database']['port'],
+        username=config[source_db]['target_database']['username'],
+        password=config[source_db]['target_database']['password']
+    )
     mongo_db = mongo_client[config[source_db]['target_database']['database_name']]
     mongo_collection = mongo_db[target_collection]
 
