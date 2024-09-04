@@ -6,7 +6,7 @@ from conf.alchemy_db import get_engine, get_session, get_metadata
 def insert_data(config):
     for key in list(config):
         sub_config = config[key]
-        db_config = sub_config['database']
+        db_config = sub_config['source_database']
         
         engine = get_engine(db_config)
         metadata = get_metadata(engine)

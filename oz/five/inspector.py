@@ -1,4 +1,6 @@
 from sqlalchemy import inspect
+from conf.config_loader import load_config
+from migration import migrate_data, compare_schemas, compare_all_schemas
 
 # 특정 데이터베이스에 속한 schema 목록 반환
 def get_schemas(engine):
@@ -76,8 +78,10 @@ def display_main_menu():
     print("=== 데이터베이스 관리 도구 ===")
     print("1. 데이터베이스 정보 조회")
     print("2. 더미 데이터 생성 및 삽입")
-    print("3. 종료")
-    return input("원하는 작업을 선택하세요 (1-3): ")
+    print("3. MySQL에서 MongoDB로 데이터 마이그레이션")
+    print("4. 스키마 비교")
+    print("5. 종료")
+    return input("원하는 작업을 선택하세요 (1-5): ")
 
 def display_menu():
     print("=== 데이터베이스 정보 조회 ===")
@@ -96,6 +100,52 @@ def get_valid_schema(engine):
     else:
         print("유효하지 않은 스키마입니다.")
         return None
+    
+def handle_migration():
+    config = load_config()
+    print("=== MySQL에서 MongoDB로 데이터 마이그레이션 ===")
+    print("데이터베이스 선택:")
+    for i, db_name in enumerate(config.keys(), 1):
+        print(f"{i}. {db_name}")
+    db_choice = int(input("선택: ")) - 1
+    db_name = list(config.keys())[db_choice]
+
+    print(f"\n{db_name}의 테이블 선택:")
+    tables = list(config[db_name]['tables'].keys())
+    for i, table_name in enumerate(tables, 1):
+        print(f"{i}. {table_name}")
+    table_choice = int(input("선택: ")) - 1
+    table_name = tables[table_choice]
+
+    target_collection = config[db_name]['tables'][table_name]['target_collection']
+    
+    migrate_data(db_name, table_name, f"{db_name}_mongo", target_collection)
+    
+def handle_schema_comparison():
+    print("=== 스키마 비교 ===")
+    print("1. 모든 스키마 비교")
+    print("2. 특정 테이블 스키마 비교")
+    choice = input("선택: ")
+
+    if choice == '1':
+        compare_all_schemas()
+    elif choice == '2':
+        config = load_config()
+        print("데이터베이스 선택:")
+        for i, db_name in enumerate(config.keys(), 1):
+            print(f"{i}. {db_name}")
+        db_choice = int(input("선택: ")) - 1
+        db_name = list(config.keys())[db_choice]
+
+        print(f"\n{db_name}의 테이블 선택:")
+        tables = list(config[db_name]['tables'].keys())
+        for i, table_name in enumerate(tables, 1):
+            print(f"{i}. {table_name}")
+        table_choice = int(input("선택: ")) - 1
+        table_name = tables[table_choice]
+
+        target_collection = config[db_name]['tables'][table_name]['target_collection']
+        compare_schemas(db_name, table_name, f"{db_name}_mongo", target_collection)
 
 def handle_database_info(engine):
     while True:

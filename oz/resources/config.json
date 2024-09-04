@@ -1,119 +1,161 @@
 {
   "airportdb": {
-    "database": {
+    "source_database": {
+      "type": "mysql",
       "username": "root",
       "password": "root",
       "host": "localhost",
       "port": 3306,
       "database_name": "airportdb"
     },
+    "target_database": {
+      "type": "mongodb",
+      "username": "root",
+      "password": "root",
+      "host": "localhost",
+      "port": 27017,
+      "database_name": "airportdb_mongo"
+    },
     "tables": {
       "airline": {
         "rows": 1000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "airlines"
       },
       "airplane": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "airplanes"
       },
       "airplane_type": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "airplane_types"
       },
       "airport": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "airports"
       },
       "airport_geo": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "airport_geos"
       },
       "airport_reachable": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "airport_reachables"
       },
       "booking": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "bookings"
       },
       "employee": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "employees"
       },
       "flight": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "flights"
       },
       "flight_log": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "flight_logs"
       },
       "flightschedule": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "flight_schedules"
       },
       "passenger": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "passengers"
       },
       "passengerdetails": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "passenger_details"
       },
       "weatherdata": {
         "rows": 5000,
-        "mode": "replace"
+        "mode": "replace",
+        "target_collection": "weather_data"
       }
     }
   },
   "oz": {
-    "database": {
+    "source_database": {
+      "type": "mysql",
       "username": "root",
       "password": "root",
       "host": "localhost",
       "port": 3306,
       "database_name": "oz"
     },
+    "target_database": {
+      "type": "mongodb",
+      "username": "root",
+      "password": "root",
+      "host": "localhost",
+      "port": 27017,
+      "database_name": "oz_mongo"
+    },
     "tables": {
       "customers": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "customers"
       },
       "departments": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "departments"
       },
       "employees": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "employees"
       },
       "inventory": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "inventory"
       },
       "invoices": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "invoices"
       },
       "orders": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "orders"
       },
       "products": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "products"
       },
       "reviews": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "reviews"
       },
       "shipments": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "shipments"
       },
       "suppliers": {
-          "rows": 5000,
-          "mode": "replace"
+        "rows": 5000,
+        "mode": "replace",
+        "target_collection": "suppliers"
       }
     }
   }

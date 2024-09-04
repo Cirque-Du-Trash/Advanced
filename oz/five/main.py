@@ -2,12 +2,12 @@ import time
 from conf.config_loader import load_config
 from conf.alchemy_db import get_engine
 from insert_data import insert_data
-from inspector import display_main_menu, handle_database_info
+from inspector import display_main_menu, handle_database_info, handle_migration, handle_schema_comparison
 
 def main():
     config = load_config()
     db_key = 'oz'
-    db_config = config[db_key]['database']
+    db_config = config[db_key]['source_database']
     engine = get_engine(db_config)
 
     while True:
@@ -23,6 +23,12 @@ def main():
             print(f"소요 시간: {elapsed_time:.2f} 초")
 
         elif choice == '3':
+            handle_migration()
+
+        elif choice == '4':
+            handle_schema_comparison()
+
+        elif choice == '5':
             print("프로그램을 종료합니다.")
             break
 
