@@ -5,19 +5,6 @@ import pymysql
 import decimal
 import datetime
 
-def convert_data(data):
-    if isinstance(data, dict):
-        return {key: convert_data(value) for key, value in data.items()}
-    elif isinstance(data, list):
-        return [convert_data(element) for element in data]
-    elif isinstance(data, decimal.Decimal):
-        return float(data)
-    elif isinstance(data, datetime.timedelta):
-        return int(data.total_seconds())
-    elif isinstance(data, datetime.date):
-        return data.isoformat()
-    return data
-
 def get_mysql_connection(source_db):
     config = load_config()
     return pymysql.connect(
@@ -97,3 +84,16 @@ def compare_all_schemas():
 
 if __name__ == "__main__":
     compare_all_schemas()
+    
+def convert_data(data):
+    if isinstance(data, dict):
+        return {key: convert_data(value) for key, value in data.items()}
+    elif isinstance(data, list):
+        return [convert_data(element) for element in data]
+    elif isinstance(data, decimal.Decimal):
+        return float(data)
+    elif isinstance(data, datetime.timedelta):
+        return int(data.total_seconds())
+    elif isinstance(data, datetime.date):
+        return data.isoformat()
+    return data
