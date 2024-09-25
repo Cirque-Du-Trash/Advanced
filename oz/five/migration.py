@@ -65,15 +65,18 @@ def compare_schemas(source_db, source_table, target_db, target_collection):
         'mongodb_type': mongo_schema.get(column['name'], 'Not present')
     } for column in mysql_columns]
 
-    with open('README.md', 'a') as f:
-        f.write(f"# 스키마 비교 결과\n\n")
-        f.write(f"## 스키마 비교: {source_db}.{source_table} vs {target_db}.{target_collection}\n\n")
-        f.write("| 필드 | MySQL 타입 | MongoDB 타입 |\n")
-        f.write("|-------|------------|---------------|\n")
+    # schema_compare.md 파일을 매번 비우고 새로 작성
+    with open('schema_compare.md', 'a') as f:  # 'a' 모드로 변경
+        if f.tell() == 0:  # 파일이 비어있으면 헤더 작성
+            f.write(f"# 스키마 비교 결과\n\n")
+            f.write(f"## 스키마 비교: {source_db}.{source_table} vs {target_db}.{target_collection}\n\n")
+            f.write("| 필드 | MySQL 타입 | MongoDB 타입 |\n")
+            f.write("|-------|------------|---------------|\n")
+        
         for item in comparison_result:
             f.write(f"| {item['field']} | {item['mysql_type']} | {item['mongodb_type']} |\n")
 
-    print(f"스키마 {source_db}.{source_table}와 {target_db}.{target_collection}의 비교 결과가 README.md에 추가되었습니다.")
+    print(f"스키마 {source_db}.{source_table}와 {target_db}.{target_collection}의 비교 결과가 schema_compare.md에 추가되었습니다.")
 
 def compare_all_schemas():
     config = load_config()
