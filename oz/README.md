@@ -2,8 +2,9 @@ oz/
 
 ├── conf/
 
-│   ├── alchemy_db.py     # 엔진, 세션, 메타데이터 생성
-│   └── config_loader.py  # 설정 파일 로더
+│    ├── alchemy_db.py     # 엔진, 세션, 메타데이터 생성
+
+│    └── config_loader.py  # 설정 파일 로더
 
 ├── __init__.py
 
@@ -28,6 +29,7 @@ oz/
 ├── schema_compare.md     # 스키마 비교 결과 출력
 
 └── resources/            # 설정 파일
+
     └── config.json       # json 설정 파일
     
 
