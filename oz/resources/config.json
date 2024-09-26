@@ -10,8 +10,8 @@
     },
     "target_database": {
       "type": "mongodb",
-      "username": "root",
-      "password": "root",
+      "username": "admin",
+      "password": "admin",
       "host": "localhost",
       "port": 27017,
       "database_name": "airportdb_mongo"
@@ -100,8 +100,8 @@
     },
     "target_database": {
       "type": "mongodb",
-      "username": "root",
-      "password": "root",
+      "username": "admin",
+      "password": "admin",
       "host": "localhost",
       "port": 27017,
       "database_name": "oz_mongo"
